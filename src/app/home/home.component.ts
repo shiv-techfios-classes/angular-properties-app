@@ -88,7 +88,7 @@ export class HomeComponent {
         includes(text.toLowerCase()));
 
     }else
-    if(this.selectedFeature != '' && this.selectedFeature=='city') {
+    if(this.selectedFeature != '' && this.selectedFeature=='City') {
 
       this.filteredLocationList = this.housingLocationList.
       filter(hl => hl?.city.toLowerCase().
