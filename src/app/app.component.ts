@@ -19,7 +19,7 @@ import { Router } from 'express';
 
 export class AppComponent {
   
-  title = 'properties-app';
+  title = 'Homes App';
 
   
 /**
