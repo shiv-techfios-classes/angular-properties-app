@@ -1,22 +1,34 @@
-  import { Component, inject } from '@angular/core';
-  import { HousingLocationComponent } from '../housing-location/housing-location.component';
-  import { CommonModule } from '@angular/common';
-  import { HousingLocation } from '../housing-location';
-  import { HousingService } from '../housing.service';
+import { Component, inject, ElementRef, ViewChild } from '@angular/core';
+import { HousingLocationComponent } from '../housing-location/housing-location.component';
+import { CommonModule } from '@angular/common';
+import { HousingLocation } from '../housing-location';
+import { HousingService } from '../housing.service';
 
-  @Component({
-    selector: 'app-home',
-    standalone: true,
-    imports: [HousingLocationComponent , CommonModule],
-    template: `
+@Component({
+  selector: 'app-home',
+  standalone: true,
+  imports: [HousingLocationComponent, CommonModule],
+  template: `
     <section>
+    <div class="form-group">
+        <p>You select a field to search for properties</p>
+          <select #feature (change)="onSelected()">
+            <option default>Pick a field</option>
+            <option>City</option>	
+            <option>Name</option>
+            <option>Amenity</option>
+          </select>
+        </div>
+        <p> You are searching on {{selectedFeature}}
      <form>
     <div class="form-group">
       <input type="text" class= "form-control" placeholder="Search on city" #filter>
       </div>
+
       <div class="form-group">
       <button class="primary" type="button" (click) = "filterResults(filter.value)">Search</button>
       </div>
+      
     </form>
   </section>
     <section class="results">
@@ -24,41 +36,49 @@
     </section>
   
     `,
-    styleUrl: './home.component.css'
-  })
-  export class HomeComponent {
+  styleUrl: './home.component.css'
+})
+export class HomeComponent {
 
-    readonly baseUrl = 'https://angular.io/assets/images/tutorials/faa';
+  readonly baseUrl = 'https://angular.io/assets/images/tutorials/faa';
 
 
-    housingLocationList: HousingLocation[] = [];
+  housingLocationList: HousingLocation[] = [];
 
-    filteredLocationList:HousingLocation[] = [];
-    
-    housingService:HousingService = inject(HousingService);
+  filteredLocationList: HousingLocation[] = [];
 
-    constructor() {
+  housingService: HousingService = inject(HousingService);
 
-      this.housingLocationList = this.housingService.getAllHousingLocations();
+  @ViewChild('feature') feature!: ElementRef;
+	
+  selectedFeature = '';
 
+	onSelected():void {
+		this.selectedFeature = this.feature.nativeElement.value;
+	}
+
+  constructor() {
+
+    this.housingLocationList = this.housingService.getAllHousingLocations();
+
+    this.filteredLocationList = this.housingLocationList;
+
+    console.log(this.housingLocationList);
+
+  }
+
+  filterResults(text: string) {
+
+    if (!text) {
       this.filteredLocationList = this.housingLocationList;
-
-      console.log(this.housingLocationList);
-      
+      return;
     }
 
-    filterResults(text:string) {
+    this.filteredLocationList = this.housingLocationList.
+      filter(hl => hl?.city.toLowerCase().
+        includes(text.toLowerCase()));
 
-      if(!text) {
-        this.filteredLocationList= this.housingLocationList;
-        return;
-      }
 
-      this.filteredLocationList = this.housingLocationList.
-                                                      filter(hl => hl?.city.toLowerCase().
-                                                                            includes(text.toLowerCase()));
+  }
 
-        
-    }
-    
-    }
+}

@@ -16,4 +16,3 @@ phases:
     commands:
       - echo "Updating files in the S3 bucket..."
       - aws s3 sync dist/properties-app/browser s3://angular-propertiesapp-s3 --delete
-      - aws s3 sync dist/properties-app/server s3://angular-propertiesapp-s3 --delete
