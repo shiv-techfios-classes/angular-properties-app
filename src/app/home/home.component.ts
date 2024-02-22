@@ -12,7 +12,7 @@
     <section>
      <form>
     <div class="form-group">
-      <input type="text" class= "form-control" placeholder="Filter by city" #filter>
+      <input type="text" class= "form-control" placeholder="Search on city" #filter>
       </div>
       <div class="form-group">
       <button class="primary" type="button" (click) = "filterResults(filter.value)">Search</button>
