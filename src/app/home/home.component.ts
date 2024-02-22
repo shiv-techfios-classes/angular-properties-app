@@ -16,13 +16,13 @@ import { HousingService } from '../housing.service';
             <option default>Pick a field</option>
             <option>City</option>	
             <option>Name</option>
-            <option>Amenity</option>
+            <option>State</option>
           </select>
         </div>
-        <p> You are searching on {{selectedFeature}}
+        
      <form>
     <div class="form-group">
-      <input type="text" class= "form-control" placeholder="Search on city" #filter>
+      <input type="text" class= "form-control" placeholder="Search on {{selectedFeature}}" #filter>
       </div>
 
       <div class="form-group">
@@ -74,10 +74,28 @@ export class HomeComponent {
       return;
     }
 
-    this.filteredLocationList = this.housingLocationList.
+    if(  this.selectedFeature != '' && this.selectedFeature=='Name') {
+
+      this.filteredLocationList = this.housingLocationList.
+      filter(hl => hl?.name.toLowerCase().
+        includes(text.toLowerCase()));
+
+    }else 
+    if(this.selectedFeature !='' && this.selectedFeature=='State'){
+
+      this.filteredLocationList = this.housingLocationList.
+      filter(hl => hl?.state.toLowerCase().
+        includes(text.toLowerCase()));
+
+    }else
+    if(this.selectedFeature != '' && this.selectedFeature=='city') {
+
+      this.filteredLocationList = this.housingLocationList.
       filter(hl => hl?.city.toLowerCase().
         includes(text.toLowerCase()));
 
+    }
+    
 
   }
 
